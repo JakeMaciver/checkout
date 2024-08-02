@@ -24,6 +24,7 @@ func NewCheckout(catalogue pricing.Catalogue) *Checkout {
 
 // Scan method
 func (c *Checkout) Scan(SKU string) error {
+	c.Items[SKU]++
 	return nil
 }
 // GetTotal method
