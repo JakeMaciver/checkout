@@ -1,7 +1,23 @@
 package pricing
 
-// pricing struct?
+// Catalogue defines the collection of items and mapping them to their pricing schema
+type Catalogue struct {
+	Prices map[string]ItemPricing
+}
 
-// individual item pricing breakdown, in struct?
+// ItemPricing defines the pricing schema per item in a Catalogue
+type ItemPricing struct {
+	// NormalPrice represent the usual price of an item
+	NormalPrice int
+	// SpecialPrice represents the special price of an item when a quantity has been reached
+	SpecialPrice int
+	// SpecialQty represents the number needed to be reached in order for the SpecialPrice to come in effect
+	SpecialQty int
+}
 
-// constructor function for struct
+// NewCatalogue initialises and returns a Catalogue instance
+func NewCatalogue(itemPrices map[string]ItemPricing) *Catalogue {
+	return &Catalogue{
+		Prices: itemPrices,
+	}
+}
