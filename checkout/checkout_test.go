@@ -89,6 +89,11 @@ func TestScan(t *testing.T) {
 		}
 
 		got := err
+		want := errors.New("item not found the catagloue: F")
+
+		if got.Error() != want.Error() {
+			t.Errorf("got: %v, want: %v", got, want)
+		}
 	})
 }
 // test GetTotal
