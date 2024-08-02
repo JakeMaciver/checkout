@@ -1,6 +1,10 @@
 package checkout
 
-import "github.com/JakeMaciver/checkout/pricing"
+import (
+	"errors"
+
+	"github.com/JakeMaciver/checkout/pricing"
+)
 
 // implement interface
 type ICheckout interface {
@@ -24,6 +28,10 @@ func NewCheckout(catalogue pricing.Catalogue) *Checkout {
 
 // Scan method
 func (c *Checkout) Scan(SKU string) error {
+	if len(SKU) == 0 {
+		return errors.New("no item to scan")	
+	}
+
 	c.Items[SKU]++
 	return nil
 }
