@@ -16,5 +16,7 @@ func TestScan(t *testing.T) {
 		"D": {NormalPrice: 15, SpecialQty: 0, SpecialPrice: 0},
 	}
 
+	catalogue := pricing.NewCatalogue(prices)
+
 }
 // test GetTotal
