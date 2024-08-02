@@ -1,6 +1,7 @@
 package checkout_test
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/JakeMaciver/checkout/checkout"
@@ -27,5 +28,15 @@ func TestScan(t *testing.T) {
 	}
 
 	got := checkout.Items
+	want := map[string]int{
+		"A": 2,
+		"B": 2,
+		"C": 1,
+		"D": 1,
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got: %v, want: %v", got, want)
+	}
 }
 // test GetTotal
