@@ -13,3 +13,8 @@ type ItemPricing struct {
 }
 
 // constructor function for struct
+func NewCatalogue(itemPrices map[string]ItemPricing) *Catalogue {
+	return &Catalogue{
+		Prices: itemPrices,
+	}
+}
