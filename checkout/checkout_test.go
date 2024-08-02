@@ -1,6 +1,7 @@
 package checkout_test
 
 import (
+	"errors"
 	"reflect"
 	"testing"
 
@@ -61,6 +62,11 @@ func TestScan(t *testing.T) {
 		}
 
 		got := err
+		want:= errors.New("no item to scan")
+
+		if got.Error() != want.Error() {
+			t.Errorf("got: %v, want: %v", got, want)
+		}
 	})
 }
 // test GetTotal
