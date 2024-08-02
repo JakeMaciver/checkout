@@ -22,5 +22,10 @@ func TestScan(t *testing.T) {
 
 	itemsToScan := []string{"A", "B", "C", "A", "B", "D"}
 
+	for _, item := range itemsToScan {
+		checkout.Scan(item)
+	}
+
+	got := checkout.Items
 }
 // test GetTotal
