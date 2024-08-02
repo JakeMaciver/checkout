@@ -20,5 +20,7 @@ func TestScan(t *testing.T) {
 	catalogue := pricing.NewCatalogue(prices)
 	checkout := checkout.NewCheckout(*catalogue)
 
+	itemsToScan := []string{"A", "B", "C", "A", "B", "D"}
+
 }
 // test GetTotal
