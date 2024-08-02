@@ -2,6 +2,7 @@ package checkout
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/JakeMaciver/checkout/pricing"
 )
@@ -30,6 +31,11 @@ func NewCheckout(catalogue pricing.Catalogue) *Checkout {
 func (c *Checkout) Scan(SKU string) error {
 	if len(SKU) == 0 {
 		return errors.New("no item to scan")	
+	}
+
+	if _, exists := c.Catalogue.Prices[SKU]; !exists {
+		err := fmt.Sprintf("item not found in the catalogue: %s", SKU)
+		return errors.New(err)
 	}
 
 	c.Items[SKU]++
