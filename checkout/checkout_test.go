@@ -43,7 +43,7 @@ func TestScan(t *testing.T) {
 		}
 	})
 
-	t.Run("error case, invalid input", func(t *testing.T) {
+	t.Run("error case, input nonexistant", func(t *testing.T) {
 		prices := map[string]pricing.ItemPricing{
 			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
 			"B": {NormalPrice: 30, SpecialQty: 2, SpecialPrice: 45},
