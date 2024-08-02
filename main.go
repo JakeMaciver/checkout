@@ -16,3 +16,5 @@ package main
 //  	create a pricing module?
 //
 //  Implement TDD as we go
+
+func main() {}
