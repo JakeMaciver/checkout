@@ -18,7 +18,7 @@ func TestScan(t *testing.T) {
 	}
 
 	catalogue := pricing.NewCatalogue(prices)
-	checkout := checkout.NewCheckout(catalogue)
+	checkout := checkout.NewCheckout(*catalogue)
 
 }
 // test GetTotal
