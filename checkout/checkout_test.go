@@ -3,6 +3,7 @@ package checkout_test
 import (
 	"testing"
 
+	"github.com/JakeMaciver/checkout/checkout"
 	"github.com/JakeMaciver/checkout/pricing"
 )
 
@@ -17,6 +18,7 @@ func TestScan(t *testing.T) {
 	}
 
 	catalogue := pricing.NewCatalogue(prices)
+	checkout := checkout.NewCheckout(catalogue)
 
 }
 // test GetTotal
