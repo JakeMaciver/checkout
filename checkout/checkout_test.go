@@ -54,6 +54,13 @@ func TestScan(t *testing.T) {
 		checkout := checkout.NewCheckout(*catalogue)
 
 		itemsToScan := []string{""}
+
+		var err error
+		for _, item := range itemsToScan {
+			err = checkout.Scan(item)
+		}
+
+		got := err
 	})
 }
 // test GetTotal
