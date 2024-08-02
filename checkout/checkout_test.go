@@ -43,6 +43,7 @@ func TestScan(t *testing.T) {
 		}
 	})
 
+	// Runs through scan and tests if we recieve an error when the input is equal to nothing
 	t.Run("error case, input nonexistant", func(t *testing.T) {
 		prices := map[string]pricing.ItemPricing{
 			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
@@ -67,6 +68,10 @@ func TestScan(t *testing.T) {
 		if got.Error() != want.Error() {
 			t.Errorf("got: %v, want: %v", got, want)
 		}
+	})
+
+	t.Run("error case, not found", func(t *testing.T) {
+		
 	})
 }
 // test GetTotal

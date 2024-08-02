@@ -26,7 +26,7 @@ func NewCheckout(catalogue pricing.Catalogue) *Checkout {
 	}
 }
 
-// Scan method
+// Scan 
 func (c *Checkout) Scan(SKU string) error {
 	if len(SKU) == 0 {
 		return errors.New("no item to scan")	
@@ -35,4 +35,5 @@ func (c *Checkout) Scan(SKU string) error {
 	c.Items[SKU]++
 	return nil
 }
+
 // GetTotal method
