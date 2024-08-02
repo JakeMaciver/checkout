@@ -7,8 +7,11 @@ type Catalogue struct {
 
 // ItemPricing defines the pricing schema per item in a Catalogue
 type ItemPricing struct {
+	// NormalPrice represent the usual price of an item
 	NormalPrice int
+	// SpecialPrice represents the special price of an item when a quantity has been reached
 	SpecialPrice int
+	// SpecialQty represents the number needed to be reached in order for the SpecialPrice to come in effect
 	SpecialQty int
 }
 
