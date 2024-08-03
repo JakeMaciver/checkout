@@ -145,5 +145,16 @@ func TestUpdateItem(t *testing.T) {
 	}	
 
 	catalogue.UpdateItem(SKUtoUpdate, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)
+
+	got := catalogue.Prices[SKUtoUpdate]
+	want := pricing.ItemPricing{
+		NormalPrice:  30,
+		SpecialQty:   3,
+		SpecialPrice: 40,
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got: %v, want: %v", got, want)
+	}
 }
 // Test for deleting an item in the catalogue
