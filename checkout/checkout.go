@@ -53,11 +53,12 @@ func (c *Checkout) GetTotalPrice() (int, error) {
 
 	totalPrice := 0
 	for SKU, qty := range c.Items {
-		if c.Catalogue.Prices[SKU].SpecialQty > 0 && qty >= c.Catalogue.Prices[SKU].SpecialQty {
-			totalPrice += (qty/c.Catalogue.Prices[SKU].SpecialQty) * c.Catalogue.Prices[SKU].SpecialPrice
-			totalPrice += (qty % c.Catalogue.Prices[SKU].SpecialQty) * c.Catalogue.Prices[SKU].NormalPrice
+		cost := c.Catalogue.Prices[SKU]
+		if cost.SpecialQty > 0 && qty >= cost.SpecialQty {
+			totalPrice += (qty / cost.SpecialQty) * cost.SpecialPrice
+			totalPrice += (qty % cost.SpecialQty) * cost.NormalPrice
 		} else {
-			totalPrice += qty * c.Catalogue.Prices[SKU].NormalPrice
+			totalPrice += qty * cost.NormalPrice
 		}
 	}
 
