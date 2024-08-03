@@ -117,6 +117,11 @@ func TestGetTotalPrice(t *testing.T) {
 		catalogue := pricing.NewCatalogue(prices)
 		checkout := checkout.NewCheckout(*catalogue)	
 		
-		
+		_, got := checkout.GetTotalPrice()
+		want := errors.New("you have not scanned any items yet")
+
+		if got.Error() != want.Error() {
+			t.Errorf("got: %v, want: %v", got , want)
+		}
 	})
 }
