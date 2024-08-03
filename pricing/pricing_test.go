@@ -59,7 +59,7 @@ func TestAddItem(t *testing.T) {
 			SpecialPrice: 40,
 		}
 
-		got := catalogue.AddItem(SKUtoAdd, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)	
+		got := catalogue.AddItem(SKUtoAdd, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)
 		want := errors.New("invalid SKU: 4")
 
 		if got.Error() != want.Error() {
@@ -70,11 +70,33 @@ func TestAddItem(t *testing.T) {
 		gotNoInput := catalogue.AddItem(SKUtoAdd, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)
 		wantNoInput := errors.New("invalid SKU: ")
 
-				if gotNoInput.Error() != wantNoInput.Error() {
+		if gotNoInput.Error() != wantNoInput.Error() {
 			t.Errorf("got: %v, want: %v", gotNoInput, wantNoInput)
 		}
 	})
 	// What if normal price is 0
+	t.Run("error case, invalid normal price", func(t *testing.T) {
+		prices := map[string]pricing.ItemPricing{
+			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
+		}
+
+		catalogue := pricing.NewCatalogue(prices)
+
+		SKUtoAdd := "C"
+		newItem := pricing.ItemPricing{
+			NormalPrice:  0,
+			SpecialQty:   3,
+			SpecialPrice: 40,
+		}
+
+		got := catalogue.AddItem(SKUtoAdd, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)
+		want := errors.New("invalid normal price: 0")
+
+		if got.Error() != want.Error() {
+			t.Errorf("got: %v, want: %v", got, want)
+		}
+
+	})
 }
 
 // Test for updating an item in the catalogue
