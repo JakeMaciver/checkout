@@ -1,5 +1,10 @@
 package pricing
 
+import (
+	"errors"
+	"fmt"
+)
+
 // Catalogue defines the collection of items and mapping them to their pricing schema
 type Catalogue struct {
 	Prices map[string]ItemPricing
@@ -23,6 +28,11 @@ func NewCatalogue(itemPrices map[string]ItemPricing) *Catalogue {
 }
 
 func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, specialPrice int) error {
+	if len(SKU) != 1 {
+		err := fmt.Sprintf("invalid SKU: %s", SKU)
+		return errors.New(err)
+	}
+
 	c.Prices[SKU] = ItemPricing{
 		NormalPrice: normalPrice,
 		SpecialQty: specialQty,
