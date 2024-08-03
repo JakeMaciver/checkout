@@ -47,6 +47,7 @@ func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, special
 	return nil
 }
 
+// UpdateItem will update an existing item in the prices map
 func (c *Catalogue) UpdateItem(SKU string, normalPrice int, specialQty int, specialPrice int) error {
 	modifiedSpecialPrice, err := validateInputs(SKU, normalPrice, specialQty, specialPrice); 
 	if err != nil {
