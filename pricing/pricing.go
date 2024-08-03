@@ -27,6 +27,7 @@ func NewCatalogue(itemPrices map[string]ItemPricing) *Catalogue {
 	}
 }
 
+// AddItem will add an item to the catalogue if it already doesnt exist
 func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, specialPrice int) error {
 	if err := validateSKU(SKU); err != nil {
 		return err

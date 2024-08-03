@@ -17,6 +17,7 @@ func TestAddItem(t *testing.T) {
 
 	catalogue := pricing.NewCatalogue(prices)
 
+	// positive run through AddItem 
 	t.Run("positive case", func(t *testing.T) {
 
 		SKUtoAdd := "B"
@@ -43,9 +44,7 @@ func TestAddItem(t *testing.T) {
 		}
 	})
 
-	// list of errors to account for
-
-	// what if they enter an invalid SKU?
+	// testing the validation of the SKU input
 	t.Run("error case, invalid SKU", func(t *testing.T) {
 
 		SKUtoAdd := "4"
@@ -71,7 +70,7 @@ func TestAddItem(t *testing.T) {
 		}
 	})
 
-	// What if normal price is 0
+	// testing the validation of the normalPrice input
 	t.Run("error case, invalid normal price", func(t *testing.T) {
 
 		SKUtoAdd := "C"
@@ -89,7 +88,7 @@ func TestAddItem(t *testing.T) {
 		}
 	})
 
-	// what if special Qty is 0 but special price is not?
+	// testing is the user enters 0 in the specialQty
 	t.Run("positive case, switching SpecialPrice based on SpecialQty", func(t *testing.T) {
 
 		SKUtoAdd := "C"
@@ -112,7 +111,7 @@ func TestAddItem(t *testing.T) {
 		}
 	})
 
-	// what if the item already exists?
+	// testing if the item the user is trying to add already exists in the catalogue
 	t.Run("error case, already exists", func(t *testing.T) {
 		SKUtoAdd := "A"
 		newItem := pricing.ItemPricing{
@@ -131,4 +130,5 @@ func TestAddItem(t *testing.T) {
 }
 
 // Test for updating an item in the catalogue
+
 // Test for deleting an item in the catalogue
