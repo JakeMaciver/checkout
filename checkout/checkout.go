@@ -53,11 +53,15 @@ func (c *Checkout) GetTotalPrice() (int, error) {
 	if len(c.Items) == 0 {
 		return 0, errors.New("you have not scanned any items yet")
 	}
+
 	totalPrice := 0
 	for SKU, qty := range c.Items {
 		cost := c.Catalogue.Prices[SKU]
+		// each item check if the user has ordered enough items to meet the special price
 		if cost.SpecialQty > 0 && qty >= cost.SpecialQty {
+			// apply special price to all the items it can
 			totalPrice += (qty / cost.SpecialQty) * cost.SpecialPrice
+			// apply normal price to remainder of the items
 			totalPrice += (qty % cost.SpecialQty) * cost.NormalPrice
 		} else {
 			totalPrice += qty * cost.NormalPrice
