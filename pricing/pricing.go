@@ -67,6 +67,7 @@ func (c *Catalogue) UpdateItem(SKU string, normalPrice int, specialQty int, spec
 	return nil
 }
 
+// DeleteItem will delete an item from the prices map if it exists
 func (c *Catalogue) DeleteItem(SKU string) error {
 	if len(SKU) != 1 {
 		return fmt.Errorf("invalid SKU: %s", SKU)
