@@ -62,4 +62,10 @@ func main() {
 		}
 	}
 
+	fmt.Println("\nCalculating total price...")
+	if total, err := checkout.GetTotalPrice(); err != nil {
+		fmt.Println("error getting total price: ", err)
+	} else {
+		fmt.Println("Total is: ", total)
+	}
 }
