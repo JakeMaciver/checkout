@@ -29,20 +29,12 @@ func NewCatalogue(itemPrices map[string]ItemPricing) *Catalogue {
 }
 
 func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, specialPrice int) error {
-	if len(SKU) != 1 {
-		err := fmt.Sprintf("invalid SKU: %s", SKU)
-		return errors.New(err)
-	}
-	charSKU := SKU[0]
-	rSKU := rune(charSKU)
-	if !unicode.IsUpper(rSKU) || !unicode.IsLetter(rSKU) {
-		err := fmt.Sprintf("invalid SKU: %s", SKU)
-		return errors.New(err)		
+	if err := validateSKU(SKU); err != nil {
+		return err
 	}
 
-	if normalPrice <= 0 {
-		err := fmt.Sprintf("invalid normal price: %d", normalPrice)		
-		return errors.New(err)
+	if err := validateNormalPrice(normalPrice); err != nil {
+		return err
 	}
 
 	if specialQty == 0 {
@@ -60,5 +52,24 @@ func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, special
 		SpecialPrice: specialPrice,
 	}
 
+	return nil
+}
+
+func validateSKU(SKU string) error {
+	if len(SKU) != 1 {
+		return fmt.Errorf("invalid SKU: %s", SKU)
+	}
+	charSKU := SKU[0]
+	rSKU := rune(charSKU)
+	if !unicode.IsUpper(rSKU) || !unicode.IsLetter(rSKU) {
+		return fmt.Errorf("invalid SKU: %s", SKU)
+	}
+	return nil
+}
+
+func validateNormalPrice(normalPrice int) error {
+	if normalPrice <= 0 {
+		return fmt.Errorf("invalid normal price: %d", normalPrice)
+	}
 	return nil
 }
