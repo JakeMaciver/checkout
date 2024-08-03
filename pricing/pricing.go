@@ -40,6 +40,11 @@ func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, special
 		return errors.New(err)		
 	}
 
+	if normalPrice <= 0 {
+		err := fmt.Sprintf("invalid normal price: %d", normalPrice)		
+		return errors.New(err)
+	}
+
 	c.Prices[SKU] = ItemPricing{
 		NormalPrice: normalPrice,
 		SpecialQty: specialQty,
