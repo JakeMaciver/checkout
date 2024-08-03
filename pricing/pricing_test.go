@@ -156,5 +156,8 @@ func TestUpdateItem(t *testing.T) {
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got: %v, want: %v", got, want)
 	}
+
+	// errors to handle
+	// all input validation
 }
 // Test for deleting an item in the catalogue
