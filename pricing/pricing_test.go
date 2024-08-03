@@ -160,7 +160,7 @@ func TestUpdateItem(t *testing.T) {
 	// errors to handle
 	// all input validation
 
-		// testing the validation of the SKU input
+	// testing the validation of the SKU input
 	t.Run("error case, invalid SKU", func(t *testing.T) {
 
 		SKUtoAdd := "4"

@@ -29,16 +29,9 @@ func NewCatalogue(itemPrices map[string]ItemPricing) *Catalogue {
 
 // AddItem will add an item to the catalogue if it already doesnt exist
 func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, specialPrice int) error {
-	if err := validateSKU(SKU); err != nil {
+	modifiedSpecialPrice, err := validateInputs(SKU, normalPrice, specialQty, specialPrice); 
+	if err != nil {
 		return err
-	}
-
-	if err := validateNormalPrice(normalPrice); err != nil {
-		return err
-	}
-
-	if specialQty == 0 {
-		specialPrice = 0
 	}
 
 	if _, ok := c.Prices[SKU]; ok {	
@@ -48,49 +41,44 @@ func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, special
 	c.Prices[SKU] = ItemPricing{
 		NormalPrice: normalPrice,
 		SpecialQty: specialQty,
-		SpecialPrice: specialPrice,
+		SpecialPrice: modifiedSpecialPrice,
 	}
 
 	return nil
 }
 
 func (c *Catalogue) UpdateItem(SKU string, normalPrice int, specialQty int, specialPrice int) error {
-	if err := validateSKU(SKU); err != nil {
+	modifiedSpecialPrice, err := validateInputs(SKU, normalPrice, specialQty, specialPrice); 
+	if err != nil {
 		return err
-	}
-
-	if err := validateNormalPrice(normalPrice); err != nil {
-		return err
-	}
-
-	if specialQty == 0 {
-		specialPrice = 0
 	}
 
 	c.Prices[SKU] = ItemPricing{
 		NormalPrice: normalPrice,
 		SpecialQty: specialQty,
-		SpecialPrice: specialPrice,
+		SpecialPrice: modifiedSpecialPrice,
 	}
 
 	return nil
 }
 
-func validateSKU(SKU string) error {
+func validateInputs(SKU string, normalPrice int, specialQty int, specialPrice int) (int, error) {
 	if len(SKU) != 1 {
-		return fmt.Errorf("invalid SKU: %s", SKU)
+		return specialPrice, fmt.Errorf("invalid SKU: %s", SKU)
 	}
 	charSKU := SKU[0]
 	rSKU := rune(charSKU)
 	if !unicode.IsUpper(rSKU) || !unicode.IsLetter(rSKU) {
-		return fmt.Errorf("invalid SKU: %s", SKU)
+		return specialPrice, fmt.Errorf("invalid SKU: %s", SKU)
 	}
-	return nil
-}
 
-func validateNormalPrice(normalPrice int) error {
 	if normalPrice <= 0 {
-		return fmt.Errorf("invalid normal price: %d", normalPrice)
+		return specialPrice, fmt.Errorf("invalid normal price: %d", normalPrice)
 	}
-	return nil
+
+	if specialQty == 0 {
+		specialPrice = 0
+	}
+	
+	return specialPrice, nil
 }
