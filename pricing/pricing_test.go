@@ -8,14 +8,17 @@ import (
 	"github.com/JakeMaciver/checkout/pricing"
 )
 
+// Helper function to create a new catalogue with prices
+func newCatalogue() *pricing.Catalogue {
+	return pricing.NewCatalogue(map[string]pricing.ItemPricing{
+		"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
+	})
+}
+
 // Test for adding an item to the catalogue
 func TestAddItem(t *testing.T) {
 
-	prices := map[string]pricing.ItemPricing{
-		"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-	}
-
-	catalogue := pricing.NewCatalogue(prices)
+	catalogue := newCatalogue()
 
 	// positive run through AddItem
 	t.Run("positive case", func(t *testing.T) {
@@ -131,11 +134,7 @@ func TestAddItem(t *testing.T) {
 
 // Test for updating an item in the catalogue
 func TestUpdateItem(t *testing.T) {
-	prices := map[string]pricing.ItemPricing{
-		"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-	}
-
-	catalogue := pricing.NewCatalogue(prices)
+	catalogue := newCatalogue()
 
 	// testing for a positive run through the method resulting in no errors and expected behaviour of updating an item
 	t.Run("positive case", func(t *testing.T) {
@@ -248,14 +247,10 @@ func TestUpdateItem(t *testing.T) {
 
 // Test for deleting an item in the catalogue
 func TestDeleteItem(t *testing.T) {
+	catalogue := newCatalogue()
 
 	// test the deleting of an item in the prices map, positive pass
 	t.Run("positive case", func(t *testing.T) {
-		prices := map[string]pricing.ItemPricing{
-			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-		}
-
-		catalogue := pricing.NewCatalogue(prices)
 
 		SKUtoDelete := "A"
 
@@ -271,12 +266,6 @@ func TestDeleteItem(t *testing.T) {
 
 	// testing the validation of the SKU input
 	t.Run("error case, invalid SKU", func(t *testing.T) {
-
-		prices := map[string]pricing.ItemPricing{
-			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-		}
-
-		catalogue := pricing.NewCatalogue(prices)
 
 		// no input
 		SKUtoDelete := ""
@@ -301,12 +290,6 @@ func TestDeleteItem(t *testing.T) {
 
 	// testing if the item does exist in the prices map
 	t.Run("error case, item doesnt exist", func(t *testing.T) {
-
-		prices := map[string]pricing.ItemPricing{
-			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-		}
-
-		catalogue := pricing.NewCatalogue(prices)
 
 		SKUtoDelete := "B"
 
