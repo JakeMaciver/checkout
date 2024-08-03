@@ -29,7 +29,7 @@ func NewCatalogue(itemPrices map[string]ItemPricing) *Catalogue {
 
 // AddItem will add an item to the catalogue if it already doesnt exist
 func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, specialPrice int) error {
-	if err := validateSKU(SKU); err != nil {
+	if err := ValidateSKU(SKU); err != nil {
 		return err
 	}
 	if err := validatePrice(normalPrice); err != nil {
@@ -54,7 +54,7 @@ func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, special
 
 // UpdateItem will update an existing item in the prices map
 func (c *Catalogue) UpdateItem(SKU string, normalPrice int, specialQty int, specialPrice int) error {
-	if err := validateSKU(SKU); err != nil {
+	if err := ValidateSKU(SKU); err != nil {
 		return err
 	}
 	if err := validatePrice(normalPrice); err != nil {
@@ -79,7 +79,7 @@ func (c *Catalogue) UpdateItem(SKU string, normalPrice int, specialQty int, spec
 
 // DeleteItem will delete an item from the prices map if it exists
 func (c *Catalogue) DeleteItem(SKU string) error {
-	if err := validateSKU(SKU); err != nil {
+	if err := ValidateSKU(SKU); err != nil {
 		return err
 	}
 
@@ -92,7 +92,7 @@ func (c *Catalogue) DeleteItem(SKU string) error {
 }
 
 // validateSKU checks if the SKU is valid
-func validateSKU(SKU string) error {
+func ValidateSKU(SKU string) error {
 	if len(SKU) != 1 {
 		return fmt.Errorf("invalid SKU: %s", SKU)
 	}

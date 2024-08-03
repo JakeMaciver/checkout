@@ -17,12 +17,10 @@ func newCatalogue() *pricing.Catalogue {
 
 // Test for adding an item to the catalogue
 func TestAddItem(t *testing.T) {
-
 	catalogue := newCatalogue()
 
 	// positive run through AddItem
 	t.Run("positive case", func(t *testing.T) {
-
 		SKUtoAdd := "B"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  20,
@@ -49,7 +47,6 @@ func TestAddItem(t *testing.T) {
 
 	// testing the validation of the SKU input
 	t.Run("error case, invalid SKU", func(t *testing.T) {
-
 		SKUtoAdd := "4"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  20,
@@ -75,7 +72,6 @@ func TestAddItem(t *testing.T) {
 
 	// testing the validation of the normalPrice input
 	t.Run("error case, invalid normal price", func(t *testing.T) {
-
 		SKUtoAdd := "C"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  0,
@@ -93,7 +89,6 @@ func TestAddItem(t *testing.T) {
 
 	// testing is the user enters 0 in the specialQty
 	t.Run("positive case, switching SpecialPrice based on SpecialQty", func(t *testing.T) {
-
 		SKUtoAdd := "C"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  15,
@@ -161,7 +156,6 @@ func TestUpdateItem(t *testing.T) {
 
 	// testing the validation of the SKU input
 	t.Run("error case, invalid SKU", func(t *testing.T) {
-
 		SKUtoUpdate := "4"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  20,
@@ -187,7 +181,6 @@ func TestUpdateItem(t *testing.T) {
 
 	// testing the validation of the normalPrice input
 	t.Run("error case, invalid normal price", func(t *testing.T) {
-
 		SKUtoUpdate := "C"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  0,
@@ -205,7 +198,6 @@ func TestUpdateItem(t *testing.T) {
 
 	// testing is the user enters 0 in the specialQty
 	t.Run("positive case, switching SpecialPrice based on SpecialQty", func(t *testing.T) {
-
 		SKUtoUpdate := "A"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  15,
@@ -228,7 +220,6 @@ func TestUpdateItem(t *testing.T) {
 
 	// testing if the item doesnt exist in the prices map
 	t.Run("error case, not found", func(t *testing.T) {
-
 		SKUtoUpdate := "B"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  15,
@@ -251,7 +242,6 @@ func TestDeleteItem(t *testing.T) {
 
 	// test the deleting of an item in the prices map, positive pass
 	t.Run("positive case", func(t *testing.T) {
-
 		SKUtoDelete := "A"
 
 		catalogue.DeleteItem(SKUtoDelete)
@@ -266,7 +256,6 @@ func TestDeleteItem(t *testing.T) {
 
 	// testing the validation of the SKU input
 	t.Run("error case, invalid SKU", func(t *testing.T) {
-
 		// no input
 		SKUtoDelete := ""
 
@@ -290,7 +279,6 @@ func TestDeleteItem(t *testing.T) {
 
 	// testing if the item does exist in the prices map
 	t.Run("error case, item doesnt exist", func(t *testing.T) {
-
 		SKUtoDelete := "B"
 
 		got := catalogue.DeleteItem(SKUtoDelete)

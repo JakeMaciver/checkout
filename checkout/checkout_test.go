@@ -53,7 +53,7 @@ func TestScan(t *testing.T) {
 		}
 
 		got := err
-		want := errors.New("no item to scan")
+		want := errors.New("invalid SKU: ")
 
 		if got.Error() != want.Error() {
 			t.Errorf("got: %v, want: %v", got, want)
