@@ -81,26 +81,42 @@ func TestScan(t *testing.T) {
 // test GetTotal
 func TestGetTotalPrice(t *testing.T) {
 
-	prices := map[string]pricing.ItemPricing{
-		"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-		"B": {NormalPrice: 30, SpecialQty: 2, SpecialPrice: 45},
-		"C": {NormalPrice: 20, SpecialQty: 0, SpecialPrice: 0},
-		"D": {NormalPrice: 15, SpecialQty: 0, SpecialPrice: 0},
-	}
+	t.Run("positive case", func(t *testing.T) {
+		prices := map[string]pricing.ItemPricing{
+			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
+			"B": {NormalPrice: 30, SpecialQty: 2, SpecialPrice: 45},
+			"C": {NormalPrice: 20, SpecialQty: 0, SpecialPrice: 0},
+			"D": {NormalPrice: 15, SpecialQty: 0, SpecialPrice: 0},
+		}
+	
+		catalogue := pricing.NewCatalogue(prices)
+		checkout := checkout.NewCheckout(*catalogue)
+	
+		itemsToScan := []string{"A", "B", "C", "D", "A", "B"}
+	
+		for _, item := range itemsToScan {
+			_ = checkout.Scan(item)
+		}
+	
+		got, _ := checkout.GetTotalPrice()
+		want := 180
+	
+		if got != want {
+			t.Errorf("got: %v, wanted: %v", got, want)
+		}
+	})
 
-	catalogue := pricing.NewCatalogue(prices)
-	checkout := checkout.NewCheckout(*catalogue)
-
-	itemsToScan := []string{"A", "B", "C", "D", "A", "B"}
-
-	for _, item := range itemsToScan {
-		_ = checkout.Scan(item)
-	}
-
-	got, _ := checkout.GetTotalPrice()
-	want := 180
-
-	if got != want {
-		t.Errorf("got: %v, wanted: %v", got, want)
-	}
+	t.Run("error case, invlid parameter", func(t *testing.T) {
+		prices := map[string]pricing.ItemPricing{
+			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
+			"B": {NormalPrice: 30, SpecialQty: 2, SpecialPrice: 45},
+			"C": {NormalPrice: 20, SpecialQty: 0, SpecialPrice: 0},
+			"D": {NormalPrice: 15, SpecialQty: 0, SpecialPrice: 0},
+		}
+	
+		catalogue := pricing.NewCatalogue(prices)
+		checkout := checkout.NewCheckout(*catalogue)	
+		
+		
+	})
 }
