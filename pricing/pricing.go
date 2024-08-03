@@ -68,6 +68,15 @@ func (c *Catalogue) UpdateItem(SKU string, normalPrice int, specialQty int, spec
 }
 
 func (c *Catalogue) DeleteItem(SKU string) error {
+	if len(SKU) != 1 {
+		return fmt.Errorf("invalid SKU: %s", SKU)
+	}
+	charSKU := SKU[0]
+	rSKU := rune(charSKU)
+	if !unicode.IsUpper(rSKU) || !unicode.IsLetter(rSKU) {
+		return fmt.Errorf("invalid SKU: %s", SKU)
+	}
+
 	delete(c.Prices, SKU)
 	return nil
 }
