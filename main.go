@@ -9,7 +9,7 @@ import (
 
 func main() {
 	catalogue := pricing.NewCatalogue(make(map[string]pricing.ItemPricing))
-	checkout := checkout.NewCheckout(*catalogue)
+	checkout.NewCheckout(*catalogue)
 
 	itemsToAdd := map[string]pricing.ItemPricing{
 		"A": {
@@ -33,6 +33,18 @@ func main() {
 	for SKU, itemPrice := range itemsToAdd {
 		if err := catalogue.AddItem(SKU, itemPrice.NormalPrice, itemPrice.SpecialQty, itemPrice.SpecialPrice); err != nil {
 			fmt.Println("error adding item to cataloguge: ", err)
+		} else {
+			fmt.Println("successfully added item to catalogue")
 		}
 	}
+
+
+	fmt.Println("\nupdating item A in the catalogue...")
+	if err := catalogue.UpdateItem("A", 15, 3, 30); err != nil {
+		fmt.Println("error updating item in the catalogue: ", err)
+	} else {
+		fmt.Println("successfully updated item in the catalogue")
+	}
+
+
 }
