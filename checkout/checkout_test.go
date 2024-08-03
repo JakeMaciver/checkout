@@ -98,6 +98,10 @@ func TestGetTotalPrice(t *testing.T) {
 	}
 
 	got, _ := checkout.GetTotalPrice()
+	want := 180
 
+	if got != want {
+		t.Errorf("got: %v, wanted: %v", got, want)
+	}
 
 }
