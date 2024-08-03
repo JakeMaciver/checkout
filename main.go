@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/JakeMaciver/checkout/checkout"
 	"github.com/JakeMaciver/checkout/pricing"
 )
@@ -8,5 +10,29 @@ import (
 func main() {
 	catalogue := pricing.NewCatalogue(make(map[string]pricing.ItemPricing))
 	checkout := checkout.NewCheckout(*catalogue)
-	
+
+	itemsToAdd := map[string]pricing.ItemPricing{
+		"A": {
+			NormalPrice: 20,
+			SpecialQty: 3,
+			SpecialPrice: 45,
+		},
+		"B": {
+			NormalPrice: 15,
+			SpecialQty: 2,
+			SpecialPrice: 20,
+		},
+		"C": {
+			NormalPrice: 30,
+			SpecialQty: 0,
+			SpecialPrice: 0,
+		},
+	}
+
+	fmt.Println("adding 3 items to the catalogue: A, B and C...")
+	for SKU, itemPrice := range itemsToAdd {
+		if err := catalogue.AddItem(SKU, itemPrice.NormalPrice, itemPrice.SpecialQty, itemPrice.SpecialPrice); err != nil {
+			fmt.Println("error adding item to cataloguge: ", err)
+		}
+	}
 }
