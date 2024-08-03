@@ -55,6 +55,12 @@ func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, special
 }
 
 func (c *Catalogue) UpdateItem(SKU string, normalPrice int, specialQty int, specialPrice int) error {
+	c.Prices[SKU] = ItemPricing{
+		NormalPrice: normalPrice,
+		SpecialQty: specialQty,
+		SpecialPrice: specialPrice,
+	}
+
 	return nil
 }
 
