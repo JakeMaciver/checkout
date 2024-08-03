@@ -34,7 +34,7 @@ func main() {
 		if err := catalogue.AddItem(SKU, itemPrice.NormalPrice, itemPrice.SpecialQty, itemPrice.SpecialPrice); err != nil {
 			fmt.Println("error adding item to cataloguge: ", err)
 		} else {
-			fmt.Println("successfully added item to catalogue")
+			fmt.Printf("successfully added item to catalogue: %s, %+v\n", SKU, itemPrice)
 		}
 	}
 
@@ -42,7 +42,7 @@ func main() {
 	if err := catalogue.UpdateItem("A", 15, 3, 30); err != nil {
 		fmt.Println("error updating item in the catalogue: ", err)
 	} else {
-		fmt.Println("successfully updated item in the catalogue")
+		fmt.Println("successfully updated item in the catalogue: A, {NormalPrice:15 SpecialPrice:30 SpecialQty:3}", )
 	}
 
 	fmt.Println("\ndeleting item B in the catalogue...")
