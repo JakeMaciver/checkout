@@ -91,7 +91,13 @@ func TestGetTotalPrice(t *testing.T) {
 	catalogue := pricing.NewCatalogue(prices)
 	checkout := checkout.NewCheckout(*catalogue)
 
-	
+	itemsToScan := []string{"A", "B", "C", "D", "A", "B"}
+
+	for _, item := range itemsToScan {
+		_ = checkout.Scan(item)
+	}
+
+	got, _ := checkout.GetTotalPrice()
 
 
 }
