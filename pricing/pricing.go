@@ -68,6 +68,7 @@ func (c *Catalogue) UpdateItem(SKU string, normalPrice int, specialQty int, spec
 }
 
 func (c *Catalogue) DeleteItem(SKU string) error {
+	delete(c.Prices, SKU)
 	return nil
 }
 
