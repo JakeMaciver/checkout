@@ -260,4 +260,9 @@ func TestDeleteItem(t *testing.T) {
 	catalogue.DeleteItem(SKUtoDelete)
 
 	_, got := catalogue.Prices[SKUtoDelete]
+	want := false
+
+	if got != want {
+		t.Errorf("got: %v, want: %v", got , want)
+	}
 }
