@@ -11,12 +11,13 @@ import (
 // Test for adding an item to the catalogue
 func TestAddItem(t *testing.T) {
 
-	t.Run("positive case", func(t *testing.T) {
-		prices := map[string]pricing.ItemPricing{
-			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-		}
+	prices := map[string]pricing.ItemPricing{
+		"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
+	}
 
-		catalogue := pricing.NewCatalogue(prices)
+	catalogue := pricing.NewCatalogue(prices)
+
+	t.Run("positive case", func(t *testing.T) {
 
 		SKUtoAdd := "B"
 		newItem := pricing.ItemPricing{
@@ -46,11 +47,6 @@ func TestAddItem(t *testing.T) {
 
 	// what if they enter an invalid SKU?
 	t.Run("error case, invalid SKU", func(t *testing.T) {
-		prices := map[string]pricing.ItemPricing{
-			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-		}
-
-		catalogue := pricing.NewCatalogue(prices)
 
 		SKUtoAdd := "4"
 		newItem := pricing.ItemPricing{
@@ -74,13 +70,9 @@ func TestAddItem(t *testing.T) {
 			t.Errorf("got: %v, want: %v", gotNoInput, wantNoInput)
 		}
 	})
+
 	// What if normal price is 0
 	t.Run("error case, invalid normal price", func(t *testing.T) {
-		prices := map[string]pricing.ItemPricing{
-			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-		}
-
-		catalogue := pricing.NewCatalogue(prices)
 
 		SKUtoAdd := "C"
 		newItem := pricing.ItemPricing{
@@ -98,19 +90,14 @@ func TestAddItem(t *testing.T) {
 	})
 
 	// what if special Qty is 0 but special price is not?
-	t.Run("error case, invalid special quantity", func(t *testing.T) {
-		prices := map[string]pricing.ItemPricing{
-			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-		}
-
-		catalogue := pricing.NewCatalogue(prices)
+	t.Run("positive case, switching SpecialPrice based on SpecialQty", func(t *testing.T) {
 
 		SKUtoAdd := "C"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  15,
 			SpecialQty:   0,
 			SpecialPrice: 40,
-		}	
+		}
 
 		catalogue.AddItem(SKUtoAdd, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)
 
@@ -121,6 +108,23 @@ func TestAddItem(t *testing.T) {
 			SpecialPrice: 0,
 		}
 		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got: %v, want: %v", got, want)
+		}
+	})
+
+	// what if the item already exists?
+	t.Run("error case, already exists", func(t *testing.T) {
+		SKUtoAdd := "A"
+		newItem := pricing.ItemPricing{
+			NormalPrice:  20,
+			SpecialQty:   3,
+			SpecialPrice: 40,
+		}
+
+		got := catalogue.AddItem(SKUtoAdd, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)
+		want := errors.New("item already exists: A")
+
+		if got.Error() != want.Error() {
 			t.Errorf("got: %v, want: %v", got, want)
 		}
 	})
