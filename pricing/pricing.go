@@ -54,6 +54,10 @@ func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, special
 	return nil
 }
 
+func (c *Catalogue) UpdateItem(SKU string, normalPrice int, specialQty int, specialPrice int) error {
+	return nil
+}
+
 func validateSKU(SKU string) error {
 	if len(SKU) != 1 {
 		return fmt.Errorf("invalid SKU: %s", SKU)
