@@ -37,6 +37,11 @@ func TestAddItem(t *testing.T) {
 	if !reflect.DeepEqual(gotItem, wantItem) {
 		t.Errorf("got: %v, want: %v", gotItem, wantItem)
 	}
+
+	// list of errors to account for
+	// what if special Qty is 0 but special price is not?
+	// what if they enter no SKU?
+	// What if normal price is 0
 }
 
 // Test for updating an item in the catalogue
