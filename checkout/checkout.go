@@ -50,5 +50,16 @@ func (c *Checkout) Scan(SKU string) error {
 
 // GetTotal method
 func (c *Checkout) GetTotalPrice() (int, error) {
-	return 0, nil
+
+	totalPrice := 0
+	for SKU, qty := range c.Items {
+		if qty >= c.Catalogue.Prices[SKU].SpecialQty {
+			totalPrice += (qty/c.Catalogue.Prices[SKU].SpecialQty) * c.Catalogue.Prices[SKU].SpecialPrice
+			totalPrice += (qty % c.Catalogue.Prices[SKU].SpecialQty) * c.Catalogue.Prices[SKU].NormalPrice
+		} else {
+			totalPrice += qty * c.Catalogue.Prices[SKU].NormalPrice
+		}
+	}
+
+	return totalPrice, nil
 }
