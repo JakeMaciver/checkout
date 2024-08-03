@@ -29,8 +29,13 @@ func NewCatalogue(itemPrices map[string]ItemPricing) *Catalogue {
 
 // AddItem will add an item to the catalogue if it already doesnt exist
 func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, specialPrice int) error {
-	modifiedSpecialPrice, err := validateInputs(SKU, normalPrice, specialQty, specialPrice); 
-	if err != nil {
+	if err := validateSKU(SKU); err != nil {
+		return err
+	}
+	if err := validatePrice(normalPrice); err != nil {
+		return err
+	}
+	if err := validateSpecialPrice(specialQty, &specialPrice); err != nil {
 		return err
 	}
 
@@ -41,7 +46,7 @@ func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, special
 	c.Prices[SKU] = ItemPricing{
 		NormalPrice: normalPrice,
 		SpecialQty: specialQty,
-		SpecialPrice: modifiedSpecialPrice,
+		SpecialPrice: specialPrice,
 	}
 
 	return nil
@@ -49,8 +54,13 @@ func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, special
 
 // UpdateItem will update an existing item in the prices map
 func (c *Catalogue) UpdateItem(SKU string, normalPrice int, specialQty int, specialPrice int) error {
-	modifiedSpecialPrice, err := validateInputs(SKU, normalPrice, specialQty, specialPrice); 
-	if err != nil {
+	if err := validateSKU(SKU); err != nil {
+		return err
+	}
+	if err := validatePrice(normalPrice); err != nil {
+		return err
+	}
+	if err := validateSpecialPrice(specialQty, &specialPrice); err != nil {
 		return err
 	}
 
@@ -61,7 +71,7 @@ func (c *Catalogue) UpdateItem(SKU string, normalPrice int, specialQty int, spec
 	c.Prices[SKU] = ItemPricing{
 		NormalPrice: normalPrice,
 		SpecialQty: specialQty,
-		SpecialPrice: modifiedSpecialPrice,
+		SpecialPrice: specialPrice,
 	}
 
 	return nil
@@ -69,13 +79,8 @@ func (c *Catalogue) UpdateItem(SKU string, normalPrice int, specialQty int, spec
 
 // DeleteItem will delete an item from the prices map if it exists
 func (c *Catalogue) DeleteItem(SKU string) error {
-	if len(SKU) != 1 {
-		return fmt.Errorf("invalid SKU: %s", SKU)
-	}
-	charSKU := SKU[0]
-	rSKU := rune(charSKU)
-	if !unicode.IsUpper(rSKU) || !unicode.IsLetter(rSKU) {
-		return fmt.Errorf("invalid SKU: %s", SKU)
+	if err := validateSKU(SKU); err != nil {
+		return err
 	}
 
 	if _, ok := c.Prices[SKU]; !ok {	
@@ -86,23 +91,29 @@ func (c *Catalogue) DeleteItem(SKU string) error {
 	return nil
 }
 
-func validateInputs(SKU string, normalPrice int, specialQty int, specialPrice int) (int, error) {
+// validateSKU checks if the SKU is valid
+func validateSKU(SKU string) error {
 	if len(SKU) != 1 {
-		return specialPrice, fmt.Errorf("invalid SKU: %s", SKU)
+		return fmt.Errorf("invalid SKU: %s", SKU)
 	}
-	charSKU := SKU[0]
-	rSKU := rune(charSKU)
-	if !unicode.IsUpper(rSKU) || !unicode.IsLetter(rSKU) {
-		return specialPrice, fmt.Errorf("invalid SKU: %s", SKU)
+	if !unicode.IsUpper(rune(SKU[0])) || !unicode.IsLetter(rune(SKU[0])) {
+		return fmt.Errorf("invalid SKU: %s", SKU)
 	}
+	return nil
+}
 
-	if normalPrice <= 0 {
-		return specialPrice, fmt.Errorf("invalid normal price: %d", normalPrice)
+// validatePrice checks if the normal price is valid
+func validatePrice(price int) error {
+	if price <= 0 {
+		return fmt.Errorf("invalid normal price: %d", price)
 	}
+	return nil
+}
 
+// validateSpecialPrice checks and updates the special price based on special quantity
+func validateSpecialPrice(specialQty int, specialPrice *int) error {
 	if specialQty == 0 {
-		specialPrice = 0
+		*specialPrice = 0
 	}
-	
-	return specialPrice, nil
+	return nil
 }
