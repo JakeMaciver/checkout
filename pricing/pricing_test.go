@@ -43,7 +43,7 @@ func TestAddItem(t *testing.T) {
 	})
 
 	// list of errors to account for
-	// what if special Qty is 0 but special price is not?
+
 	// what if they enter an invalid SKU?
 	t.Run("error case, invalid SKU", func(t *testing.T) {
 		prices := map[string]pricing.ItemPricing{
@@ -91,6 +91,29 @@ func TestAddItem(t *testing.T) {
 
 		got := catalogue.AddItem(SKUtoAdd, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)
 		want := errors.New("invalid normal price: 0")
+
+		if got.Error() != want.Error() {
+			t.Errorf("got: %v, want: %v", got, want)
+		}
+	})
+
+	// what if special Qty is 0 but special price is not?
+	t.Run("error case, invalid special quantity", func(t *testing.T) {
+		prices := map[string]pricing.ItemPricing{
+			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
+		}
+
+		catalogue := pricing.NewCatalogue(prices)
+
+		SKUtoAdd := "C"
+		newItem := pricing.ItemPricing{
+			NormalPrice:  15,
+			SpecialQty:   0,
+			SpecialPrice: 40,
+		}	
+
+		got := catalogue.AddItem(SKUtoAdd, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)
+		want := errors.New("invalid special quantity: 0")
 
 		if got.Error() != want.Error() {
 			t.Errorf("got: %v, want: %v", got, want)
