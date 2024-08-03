@@ -45,6 +45,10 @@ func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, special
 		return errors.New(err)
 	}
 
+	if specialQty == 0 {
+		specialPrice = 0
+	}
+
 	c.Prices[SKU] = ItemPricing{
 		NormalPrice: normalPrice,
 		SpecialQty: specialQty,
