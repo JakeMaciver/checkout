@@ -9,7 +9,7 @@ import (
 	"github.com/JakeMaciver/checkout/pricing"
 )
 
-// test Scan
+// test Scan method on the checkout struct
 func TestScan(t *testing.T) {
 
 	prices := map[string]pricing.ItemPricing{
@@ -60,6 +60,7 @@ func TestScan(t *testing.T) {
 		}
 	})
 
+	// runs through Scan and tests is we recieve an error when the input is not found in the catalogue
 	t.Run("error case, not found", func(t *testing.T) {
 		itemsToScan := []string{"F"}
 
