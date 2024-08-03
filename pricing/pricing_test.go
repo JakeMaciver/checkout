@@ -229,7 +229,7 @@ func TestUpdateItem(t *testing.T) {
 
 	// testing if the item doesnt exist in the prices map
 	t.Run("error case, not found", func(t *testing.T) {
-		
+
 		SKUtoUpdate := "B"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  15,
@@ -242,7 +242,7 @@ func TestUpdateItem(t *testing.T) {
 
 		if got.Error() != want.Error() {
 			t.Errorf("got: %v, want: %v", got, want)
-		}		
+		}
 	})
 }
 
@@ -254,50 +254,67 @@ func TestDeleteItem(t *testing.T) {
 		prices := map[string]pricing.ItemPricing{
 			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
 		}
-	
+
 		catalogue := pricing.NewCatalogue(prices)
-	
+
 		SKUtoDelete := "A"
-	
+
 		catalogue.DeleteItem(SKUtoDelete)
-	
+
 		_, got := catalogue.Prices[SKUtoDelete]
 		want := false
-	
+
 		if got != want {
-			t.Errorf("got: %v, want: %v", got , want)
+			t.Errorf("got: %v, want: %v", got, want)
 		}
 	})
 
-	// error to consider
-	// SKU validation
+	// testing the validation of the SKU input
 	t.Run("error case, invalid SKU", func(t *testing.T) {
-		
+
 		prices := map[string]pricing.ItemPricing{
 			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
 		}
-	
+
 		catalogue := pricing.NewCatalogue(prices)
-		
+
 		// no input
 		SKUtoDelete := ""
-	
+
 		got := catalogue.DeleteItem(SKUtoDelete)
 		want := errors.New("invalid SKU: ")
 
 		if got.Error() != want.Error() {
-			t.Errorf("got: %v, want: %v", got , want)
-		}	
+			t.Errorf("got: %v, want: %v", got, want)
+		}
 
 		// not an uppercase letter
 		SKUtoDelete = "6"
-	
+
 		gotletter := catalogue.DeleteItem(SKUtoDelete)
 		wantletter := errors.New("invalid SKU: ")
 
 		if got.Error() != want.Error() {
-			t.Errorf("got: %v, want: %v", gotletter , wantletter)
-		}	
+			t.Errorf("got: %v, want: %v", gotletter, wantletter)
+		}
 	})
-	// does the item already exist?
+
+	// testing if the item does exist in the prices map
+	t.Run("error case, item doesnt exist", func(t *testing.T) {
+
+		prices := map[string]pricing.ItemPricing{
+			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
+		}
+
+		catalogue := pricing.NewCatalogue(prices)
+
+		SKUtoDelete := "B"
+
+		got := catalogue.DeleteItem(SKUtoDelete)
+		want := errors.New("item doesnt exist: B")
+
+		if got.Error() != want.Error() {
+			t.Errorf("got: %v, want: %v", got, want)
+		}
+	})
 }
