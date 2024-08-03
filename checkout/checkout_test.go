@@ -78,17 +78,18 @@ func TestScan(t *testing.T) {
 	})
 }
 
-// test GetTotal
+// test GetTotalPrice method on the Checkout struct
 func TestGetTotalPrice(t *testing.T) {
 
-	t.Run("positive case", func(t *testing.T) {
-		prices := map[string]pricing.ItemPricing{
-			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-			"B": {NormalPrice: 30, SpecialQty: 2, SpecialPrice: 45},
-			"C": {NormalPrice: 20, SpecialQty: 0, SpecialPrice: 0},
-			"D": {NormalPrice: 15, SpecialQty: 0, SpecialPrice: 0},
-		}
-	
+	prices := map[string]pricing.ItemPricing{
+		"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
+		"B": {NormalPrice: 30, SpecialQty: 2, SpecialPrice: 45},
+		"C": {NormalPrice: 20, SpecialQty: 0, SpecialPrice: 0},
+		"D": {NormalPrice: 15, SpecialQty: 0, SpecialPrice: 0},
+	}
+
+	// Runs through the GetTotalPrice method with no errors	
+	t.Run("positive case", func(t *testing.T) {	
 		catalogue := pricing.NewCatalogue(prices)
 		checkout := checkout.NewCheckout(*catalogue)
 	
@@ -106,14 +107,8 @@ func TestGetTotalPrice(t *testing.T) {
 		}
 	})
 
-	t.Run("error case, invlid parameter", func(t *testing.T) {
-		prices := map[string]pricing.ItemPricing{
-			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-			"B": {NormalPrice: 30, SpecialQty: 2, SpecialPrice: 45},
-			"C": {NormalPrice: 20, SpecialQty: 0, SpecialPrice: 0},
-			"D": {NormalPrice: 15, SpecialQty: 0, SpecialPrice: 0},
-		}
-	
+	// Runs throught the GetTotalPrice method with no items in Checkout to check for error
+	t.Run("error case, invlid parameter", func(t *testing.T) {	
 		catalogue := pricing.NewCatalogue(prices)
 		checkout := checkout.NewCheckout(*catalogue)	
 		
