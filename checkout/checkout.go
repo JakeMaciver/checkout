@@ -50,7 +50,9 @@ func (c *Checkout) Scan(SKU string) error {
 
 // GetTotal method
 func (c *Checkout) GetTotalPrice() (int, error) {
-
+	if len(c.Items) == 0 {
+		return 0, errors.New("you have not scanned any items yet")
+	}
 	totalPrice := 0
 	for SKU, qty := range c.Items {
 		cost := c.Catalogue.Prices[SKU]
