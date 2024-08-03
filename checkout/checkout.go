@@ -40,8 +40,7 @@ func (c *Checkout) Scan(SKU string) error {
 
 	// not found in catalogue
 	if _, exists := c.Catalogue.Prices[SKU]; !exists {
-		err := fmt.Sprintf("item not found in the catalogue: %s", SKU)
-		return errors.New(err)
+		return fmt.Errorf("item not found in the catalogue: %s", SKU)
 	}
 
 	c.Items[SKU]++
