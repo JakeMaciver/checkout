@@ -46,5 +46,10 @@ func main() {
 		fmt.Println("successfully updated item in the catalogue")
 	}
 
-
+	fmt.Println("\ndeleting item B in the catalogue...")
+	if err := catalogue.DeleteItem("B"); err != nil {
+		fmt.Println("error deleting item in the catalogue: ", err)
+	} else {
+		fmt.Println("successfully deleted item from the catalogue")
+	}
 }
