@@ -55,6 +55,18 @@ func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, special
 }
 
 func (c *Catalogue) UpdateItem(SKU string, normalPrice int, specialQty int, specialPrice int) error {
+	if err := validateSKU(SKU); err != nil {
+		return err
+	}
+
+	if err := validateNormalPrice(normalPrice); err != nil {
+		return err
+	}
+
+	if specialQty == 0 {
+		specialPrice = 0
+	}
+
 	c.Prices[SKU] = ItemPricing{
 		NormalPrice: normalPrice,
 		SpecialQty: specialQty,
