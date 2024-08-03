@@ -53,6 +53,10 @@ func (c *Catalogue) UpdateItem(SKU string, normalPrice int, specialQty int, spec
 		return err
 	}
 
+	if _, ok := c.Prices[SKU]; !ok {	
+		return fmt.Errorf("item doesnt exist: %s", SKU)	
+	}
+
 	c.Prices[SKU] = ItemPricing{
 		NormalPrice: normalPrice,
 		SpecialQty: specialQty,

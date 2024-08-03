@@ -238,7 +238,7 @@ func TestUpdateItem(t *testing.T) {
 		}
 
 		got := catalogue.UpdateItem(SKUtoUpdate, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)
-		want := errors.New("SKU not found: B")
+		want := errors.New("item doesnt exist: B")
 
 		if got.Error() != want.Error() {
 			t.Errorf("got: %v, want: %v", got, want)
