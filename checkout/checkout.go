@@ -34,8 +34,8 @@ func NewCheckout(catalogue pricing.Catalogue) *Checkout {
 // Scan will add the SKU into an items list or increment if the item is already in the list, errors occur of rinvlid input and not found
 func (c *Checkout) Scan(SKU string) error {
 	// invalid input
-	if len(SKU) == 0 {
-		return errors.New("no item to scan")
+	if err := pricing.ValidateSKU(SKU); err != nil {
+		return err
 	}
 
 	// not found in catalogue

@@ -8,18 +8,19 @@ import (
 	"github.com/JakeMaciver/checkout/pricing"
 )
 
+// Helper function to create a new catalogue with prices
+func newCatalogue() *pricing.Catalogue {
+	return pricing.NewCatalogue(map[string]pricing.ItemPricing{
+		"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
+	})
+}
+
 // Test for adding an item to the catalogue
 func TestAddItem(t *testing.T) {
-
-	prices := map[string]pricing.ItemPricing{
-		"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-	}
-
-	catalogue := pricing.NewCatalogue(prices)
+	catalogue := newCatalogue()
 
 	// positive run through AddItem
 	t.Run("positive case", func(t *testing.T) {
-
 		SKUtoAdd := "B"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  20,
@@ -46,7 +47,6 @@ func TestAddItem(t *testing.T) {
 
 	// testing the validation of the SKU input
 	t.Run("error case, invalid SKU", func(t *testing.T) {
-
 		SKUtoAdd := "4"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  20,
@@ -72,7 +72,6 @@ func TestAddItem(t *testing.T) {
 
 	// testing the validation of the normalPrice input
 	t.Run("error case, invalid normal price", func(t *testing.T) {
-
 		SKUtoAdd := "C"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  0,
@@ -90,7 +89,6 @@ func TestAddItem(t *testing.T) {
 
 	// testing is the user enters 0 in the specialQty
 	t.Run("positive case, switching SpecialPrice based on SpecialQty", func(t *testing.T) {
-
 		SKUtoAdd := "C"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  15,
@@ -131,11 +129,7 @@ func TestAddItem(t *testing.T) {
 
 // Test for updating an item in the catalogue
 func TestUpdateItem(t *testing.T) {
-	prices := map[string]pricing.ItemPricing{
-		"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-	}
-
-	catalogue := pricing.NewCatalogue(prices)
+	catalogue := newCatalogue()
 
 	// testing for a positive run through the method resulting in no errors and expected behaviour of updating an item
 	t.Run("positive case", func(t *testing.T) {
@@ -162,7 +156,6 @@ func TestUpdateItem(t *testing.T) {
 
 	// testing the validation of the SKU input
 	t.Run("error case, invalid SKU", func(t *testing.T) {
-
 		SKUtoUpdate := "4"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  20,
@@ -188,7 +181,6 @@ func TestUpdateItem(t *testing.T) {
 
 	// testing the validation of the normalPrice input
 	t.Run("error case, invalid normal price", func(t *testing.T) {
-
 		SKUtoUpdate := "C"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  0,
@@ -206,7 +198,6 @@ func TestUpdateItem(t *testing.T) {
 
 	// testing is the user enters 0 in the specialQty
 	t.Run("positive case, switching SpecialPrice based on SpecialQty", func(t *testing.T) {
-
 		SKUtoUpdate := "A"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  15,
@@ -229,7 +220,6 @@ func TestUpdateItem(t *testing.T) {
 
 	// testing if the item doesnt exist in the prices map
 	t.Run("error case, not found", func(t *testing.T) {
-
 		SKUtoUpdate := "B"
 		newItem := pricing.ItemPricing{
 			NormalPrice:  15,
@@ -248,15 +238,10 @@ func TestUpdateItem(t *testing.T) {
 
 // Test for deleting an item in the catalogue
 func TestDeleteItem(t *testing.T) {
+	catalogue := newCatalogue()
 
 	// test the deleting of an item in the prices map, positive pass
 	t.Run("positive case", func(t *testing.T) {
-		prices := map[string]pricing.ItemPricing{
-			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-		}
-
-		catalogue := pricing.NewCatalogue(prices)
-
 		SKUtoDelete := "A"
 
 		catalogue.DeleteItem(SKUtoDelete)
@@ -271,13 +256,6 @@ func TestDeleteItem(t *testing.T) {
 
 	// testing the validation of the SKU input
 	t.Run("error case, invalid SKU", func(t *testing.T) {
-
-		prices := map[string]pricing.ItemPricing{
-			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-		}
-
-		catalogue := pricing.NewCatalogue(prices)
-
 		// no input
 		SKUtoDelete := ""
 
@@ -301,13 +279,6 @@ func TestDeleteItem(t *testing.T) {
 
 	// testing if the item does exist in the prices map
 	t.Run("error case, item doesnt exist", func(t *testing.T) {
-
-		prices := map[string]pricing.ItemPricing{
-			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-		}
-
-		catalogue := pricing.NewCatalogue(prices)
-
 		SKUtoDelete := "B"
 
 		got := catalogue.DeleteItem(SKUtoDelete)
