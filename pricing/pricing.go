@@ -21,3 +21,13 @@ func NewCatalogue(itemPrices map[string]ItemPricing) *Catalogue {
 		Prices: itemPrices,
 	}
 }
+
+func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, specialPrice int) error {
+	c.Prices[SKU] = ItemPricing{
+		NormalPrice: normalPrice,
+		SpecialQty: specialQty,
+		SpecialPrice: specialPrice,
+	}
+
+	return nil
+}

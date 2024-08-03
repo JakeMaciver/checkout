@@ -16,7 +16,7 @@ func TestAddItem(t *testing.T) {
 	catalogue := pricing.NewCatalogue(prices)
 
 	SKUtoAdd := "B"
-	newItem := &pricing.ItemPricing{
+	newItem := pricing.ItemPricing{
 		NormalPrice: 20,
 		SpecialQty: 3,
 		SpecialPrice: 40,
@@ -35,7 +35,7 @@ func TestAddItem(t *testing.T) {
 	wantItem := newItem
 
 	if !reflect.DeepEqual(gotItem, wantItem) {
-		t.Errorf("got: %v, want: %v", got, want)
+		t.Errorf("got: %v, want: %v", gotItem, wantItem)
 	}
 }
 
