@@ -49,6 +49,11 @@ func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, special
 		specialPrice = 0
 	}
 
+	if _, ok := c.Prices[SKU]; ok {
+		err := fmt.Sprintf("item already exists: %s", SKU)		
+		return errors.New(err)	
+	}
+
 	c.Prices[SKU] = ItemPricing{
 		NormalPrice: normalPrice,
 		SpecialQty: specialQty,
