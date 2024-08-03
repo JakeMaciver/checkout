@@ -247,3 +247,17 @@ func TestUpdateItem(t *testing.T) {
 }
 
 // Test for deleting an item in the catalogue
+func TestDeleteItem(t *testing.T) {
+
+	prices := map[string]pricing.ItemPricing{
+		"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
+	}
+
+	catalogue := pricing.NewCatalogue(prices)
+
+	SKUtoDelete := "A"
+
+	catalogue.DeleteItem(SKUtoDelete)
+
+	_, got := catalogue.Prices[SKUtoDelete]
+}
