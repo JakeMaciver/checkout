@@ -77,6 +77,10 @@ func (c *Catalogue) DeleteItem(SKU string) error {
 		return fmt.Errorf("invalid SKU: %s", SKU)
 	}
 
+	if _, ok := c.Prices[SKU]; !ok {	
+		return fmt.Errorf("item doesnt exist: %s", SKU)	
+	}
+
 	delete(c.Prices, SKU)
 	return nil
 }
