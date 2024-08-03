@@ -48,7 +48,7 @@ func (c *Checkout) Scan(SKU string) error {
 	return nil
 }
 
-// GetTotal method
+// GetTotal will add up the price of all the items in the c.Items map, takes into account if an item reaches the special price requirement. errors occur if not items available
 func (c *Checkout) GetTotalPrice() (int, error) {
 	if len(c.Items) == 0 {
 		return 0, errors.New("you have not scanned any items yet")
