@@ -249,20 +249,27 @@ func TestUpdateItem(t *testing.T) {
 // Test for deleting an item in the catalogue
 func TestDeleteItem(t *testing.T) {
 
-	prices := map[string]pricing.ItemPricing{
-		"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
-	}
+	// test the deleting of an item in the prices map, positive pass
+	t.Run("positive case", func(t *testing.T) {
+		prices := map[string]pricing.ItemPricing{
+			"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
+		}
+	
+		catalogue := pricing.NewCatalogue(prices)
+	
+		SKUtoDelete := "A"
+	
+		catalogue.DeleteItem(SKUtoDelete)
+	
+		_, got := catalogue.Prices[SKUtoDelete]
+		want := false
+	
+		if got != want {
+			t.Errorf("got: %v, want: %v", got , want)
+		}
+	})
 
-	catalogue := pricing.NewCatalogue(prices)
-
-	SKUtoDelete := "A"
-
-	catalogue.DeleteItem(SKUtoDelete)
-
-	_, got := catalogue.Prices[SKUtoDelete]
-	want := false
-
-	if got != want {
-		t.Errorf("got: %v, want: %v", got , want)
-	}
+	// error to consider
+	// SKU validation
+	// does the item already exist?
 }
