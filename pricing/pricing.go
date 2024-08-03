@@ -1,7 +1,6 @@
 package pricing
 
 import (
-	"errors"
 	"fmt"
 	"unicode"
 )
@@ -41,9 +40,8 @@ func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, special
 		specialPrice = 0
 	}
 
-	if _, ok := c.Prices[SKU]; ok {
-		err := fmt.Sprintf("item already exists: %s", SKU)		
-		return errors.New(err)	
+	if _, ok := c.Prices[SKU]; ok {	
+		return fmt.Errorf("item already exists: %s", SKU)	
 	}
 
 	c.Prices[SKU] = ItemPricing{
