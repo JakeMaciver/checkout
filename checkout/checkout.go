@@ -49,3 +49,6 @@ func (c *Checkout) Scan(SKU string) error {
 }
 
 // GetTotal method
+func (c *Checkout) GetTotalPrice() (int, error) {
+	return 0, nil
+}
