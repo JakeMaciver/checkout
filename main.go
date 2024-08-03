@@ -1,20 +1,12 @@
 package main
 
-// Steps
-//	Create interface for checkout
-//	Create struct that will satisfy interface
-//	Create Scan method
-//	Create GetTotalPrice method
-//	
-//	Need to be able to store items
-//		array?
-//	Need to be able to store pricing schemas 	
-//		map? struct?
-//	  
-//  separate into modules
-//  	create a checkout module
-//  	create a pricing module?
-//
-//  Implement TDD as we go
+import (
+	"github.com/JakeMaciver/checkout/checkout"
+	"github.com/JakeMaciver/checkout/pricing"
+)
 
-func main() {}
+func main() {
+	catalogue := pricing.NewCatalogue(make(map[string]pricing.ItemPricing))
+	checkout := checkout.NewCheckout(*catalogue)
+	
+}
