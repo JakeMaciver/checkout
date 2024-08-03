@@ -137,28 +137,28 @@ func TestUpdateItem(t *testing.T) {
 
 	catalogue := pricing.NewCatalogue(prices)
 
-	SKUtoUpdate := "A"
-	newItem := pricing.ItemPricing{
-		NormalPrice:  30,
-		SpecialQty:   3,
-		SpecialPrice: 40,
-	}	
-
-	catalogue.UpdateItem(SKUtoUpdate, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)
-
-	got := catalogue.Prices[SKUtoUpdate]
-	want := pricing.ItemPricing{
-		NormalPrice:  30,
-		SpecialQty:   3,
-		SpecialPrice: 40,
-	}
-
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("got: %v, want: %v", got, want)
-	}
-
-	// errors to handle
-	// all input validation
+	// testing for a positive run through the method resulting in no errors and expected behaviour of updating an item
+	t.Run("positive case", func(t *testing.T) {
+		SKUtoUpdate := "A"
+		newItem := pricing.ItemPricing{
+			NormalPrice:  30,
+			SpecialQty:   3,
+			SpecialPrice: 40,
+		}	
+	
+		catalogue.UpdateItem(SKUtoUpdate, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)
+	
+		got := catalogue.Prices[SKUtoUpdate]
+		want := pricing.ItemPricing{
+			NormalPrice:  30,
+			SpecialQty:   3,
+			SpecialPrice: 40,
+		}
+	
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got: %v, want: %v", got, want)
+		}
+	})
 
 	// testing the validation of the SKU input
 	t.Run("error case, invalid SKU", func(t *testing.T) {
@@ -225,6 +225,11 @@ func TestUpdateItem(t *testing.T) {
 		if !reflect.DeepEqual(got, want) {
 			t.Errorf("got: %v, want: %v", got, want)
 		}
+	})
+
+	// testing if the item doesnt exist in the prices map
+	t.Run("error case, not found", func(t *testing.T) {
+		
 	})
 }
 // Test for deleting an item in the catalogue
