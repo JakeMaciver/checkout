@@ -130,5 +130,20 @@ func TestAddItem(t *testing.T) {
 }
 
 // Test for updating an item in the catalogue
+func TestUpdateItem(t *testing.T) {
+	prices := map[string]pricing.ItemPricing{
+		"A": {NormalPrice: 50, SpecialQty: 3, SpecialPrice: 130},
+	}
 
+	catalogue := pricing.NewCatalogue(prices)
+
+	SKUtoUpdate := "A"
+	newItem := pricing.ItemPricing{
+		NormalPrice:  30,
+		SpecialQty:   3,
+		SpecialPrice: 40,
+	}	
+
+	catalogue.UpdateItem(SKUtoUpdate, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)
+}
 // Test for deleting an item in the catalogue
