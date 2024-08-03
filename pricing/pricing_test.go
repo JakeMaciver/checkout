@@ -60,10 +60,18 @@ func TestAddItem(t *testing.T) {
 		}
 
 		got := catalogue.AddItem(SKUtoAdd, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)	
-		want := errors.New("invalid input: 4")
+		want := errors.New("invalid SKU: 4")
 
 		if got.Error() != want.Error() {
 			t.Errorf("got: %v, want: %v", got, want)
+		}
+
+		SKUtoAdd = ""
+		gotNoInput := catalogue.AddItem(SKUtoAdd, newItem.NormalPrice, newItem.SpecialQty, newItem.SpecialPrice)
+		wantNoInput := errors.New("invalid SKU: ")
+
+				if gotNoInput.Error() != wantNoInput.Error() {
+			t.Errorf("got: %v, want: %v", gotNoInput, wantNoInput)
 		}
 	})
 	// What if normal price is 0

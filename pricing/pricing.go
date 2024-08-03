@@ -3,6 +3,7 @@ package pricing
 import (
 	"errors"
 	"fmt"
+	"unicode"
 )
 
 // Catalogue defines the collection of items and mapping them to their pricing schema
@@ -31,6 +32,12 @@ func (c *Catalogue) AddItem(SKU string, normalPrice int, specialQty int, special
 	if len(SKU) != 1 {
 		err := fmt.Sprintf("invalid SKU: %s", SKU)
 		return errors.New(err)
+	}
+	charSKU := SKU[0]
+	rSKU := rune(charSKU)
+	if !unicode.IsUpper(rSKU) || !unicode.IsLetter(rSKU) {
+		err := fmt.Sprintf("invalid SKU: %s", SKU)
+		return errors.New(err)		
 	}
 
 	c.Prices[SKU] = ItemPricing{
