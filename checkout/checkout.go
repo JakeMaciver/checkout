@@ -59,7 +59,7 @@ func (c *Checkout) GetTotalPrice() (int, error) {
 
 	for SKU, qty := range c.Items {
 		wg.Add(1)
-		go func (SKU string, qty int)  {
+		go func(SKU string, qty int) {
 			defer wg.Done()
 			cost := c.Catalogue.Prices[SKU]
 			tPrice := 0
@@ -71,13 +71,13 @@ func (c *Checkout) GetTotalPrice() (int, error) {
 				tPrice += (qty % cost.SpecialQty) * cost.NormalPrice
 			} else {
 				tPrice += qty * cost.NormalPrice
-			}	
-			totalChan <- tPrice	
+			}
+			totalChan <- tPrice
 		}(SKU, qty)
 	}
 
 	wg.Wait()
-	close(totalChan)		
+	close(totalChan)
 
 	totalPrice := 0
 	for price := range totalChan {

@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/JakeMaciver/checkout/checkout"
 	"github.com/JakeMaciver/checkout/pricing"
