@@ -3,13 +3,14 @@ package checkout
 import (
 	"errors"
 	"fmt"
+	"sync"
 
 	"github.com/JakeMaciver/checkout/pricing"
 )
 
 // ICheckout represents an interface for the checkout
 type ICheckout interface {
-	// Scan is mehtod that will scan an item to be paid for
+	// Scan is method that will scan an item to be paid for
 	Scan(SKU string) (err error)
 	// GetTotalPrice is a method that will get the total price of all the items that have been scanned
 	GetTotalPrice() (totalPrice int, err error)
@@ -31,7 +32,7 @@ func NewCheckout(catalogue pricing.Catalogue) *Checkout {
 	}
 }
 
-// Scan will add the SKU into an items list or increment if the item is already in the list, errors occur of rinvlid input and not found
+// Scan will add the SKU into an items list or increment if the item is already in the list, errors occur of invalid input and not found
 func (c *Checkout) Scan(SKU string) error {
 	// invalid input
 	if err := pricing.ValidateSKU(SKU); err != nil {
@@ -53,18 +54,34 @@ func (c *Checkout) GetTotalPrice() (int, error) {
 		return 0, errors.New("you have not scanned any items yet")
 	}
 
-	totalPrice := 0
+	var wg sync.WaitGroup
+	totalChan := make(chan int, len(c.Items))
+
 	for SKU, qty := range c.Items {
-		cost := c.Catalogue.Prices[SKU]
-		// each item check if the user has ordered enough items to meet the special price
-		if cost.SpecialQty > 0 && qty >= cost.SpecialQty {
-			// apply special price to all the items it can
-			totalPrice += (qty / cost.SpecialQty) * cost.SpecialPrice
-			// apply normal price to remainder of the items
-			totalPrice += (qty % cost.SpecialQty) * cost.NormalPrice
-		} else {
-			totalPrice += qty * cost.NormalPrice
-		}
+		wg.Add(1)
+		go func(SKU string, qty int) {
+			defer wg.Done()
+			cost := c.Catalogue.Prices[SKU]
+			tPrice := 0
+			// each item check if the user has ordered enough items to meet the special price
+			if cost.SpecialQty > 0 && qty >= cost.SpecialQty {
+				// apply special price to all the items it can
+				tPrice += (qty / cost.SpecialQty) * cost.SpecialPrice
+				// apply normal price to remainder of the items
+				tPrice += (qty % cost.SpecialQty) * cost.NormalPrice
+			} else {
+				tPrice += qty * cost.NormalPrice
+			}
+			totalChan <- tPrice
+		}(SKU, qty)
+	}
+
+	wg.Wait()
+	close(totalChan)
+
+	totalPrice := 0
+	for price := range totalChan {
+		totalPrice += price
 	}
 
 	return totalPrice, nil
