@@ -64,12 +64,9 @@ func main() {
 	}
 
 	fmt.Println("\nCalculating total price...")
-	start := time.Now()
 	if total, err := checkout.GetTotalPrice(); err != nil {
 		fmt.Println("error getting total price: ", err)
 	} else {
 		fmt.Println("Total is: ", total)
 	}
-	elapsed := time.Since(start)
-	fmt.Printf("Time taken with concurrency: %+v\n", elapsed.Nanoseconds())
 }
