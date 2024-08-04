@@ -71,5 +71,5 @@ func main() {
 		fmt.Println("Total is: ", total)
 	}
 	elapsed := time.Since(start)
-	fmt.Printf("Time taken without concurrency: %+v\n", elapsed.Nanoseconds())
+	fmt.Printf("Time taken with concurrency: %+v\n", elapsed.Nanoseconds())
 }
