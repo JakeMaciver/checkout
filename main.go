@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/JakeMaciver/checkout/checkout"
 	"github.com/JakeMaciver/checkout/pricing"
@@ -63,9 +64,12 @@ func main() {
 	}
 
 	fmt.Println("\nCalculating total price...")
+	start := time.Now()
 	if total, err := checkout.GetTotalPrice(); err != nil {
 		fmt.Println("error getting total price: ", err)
 	} else {
 		fmt.Println("Total is: ", total)
 	}
+	elapsed := time.Since(start)
+	fmt.Printf("Time taken without concurrency: %s\n", elapsed)
 }
