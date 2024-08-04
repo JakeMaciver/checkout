@@ -3,7 +3,6 @@ package checkout
 import (
 	"errors"
 	"fmt"
-	"sync"
 
 	"github.com/JakeMaciver/checkout/pricing"
 )
@@ -54,34 +53,18 @@ func (c *Checkout) GetTotalPrice() (int, error) {
 		return 0, errors.New("you have not scanned any items yet")
 	}
 
-	var wg sync.WaitGroup
-	totalChan := make(chan int, len(c.Items))
-
+	totalPrice := 0
 	for SKU, qty := range c.Items {
-		wg.Add(1)
-		go func(SKU string, qty int) {
-			defer wg.Done()
 			cost := c.Catalogue.Prices[SKU]
-			tPrice := 0
 			// each item check if the user has ordered enough items to meet the special price
 			if cost.SpecialQty > 0 && qty >= cost.SpecialQty {
 				// apply special price to all the items it can
-				tPrice += (qty / cost.SpecialQty) * cost.SpecialPrice
+				totalPrice += (qty / cost.SpecialQty) * cost.SpecialPrice
 				// apply normal price to remainder of the items
-				tPrice += (qty % cost.SpecialQty) * cost.NormalPrice
+				totalPrice += (qty % cost.SpecialQty) * cost.NormalPrice
 			} else {
-				tPrice += qty * cost.NormalPrice
+				totalPrice += qty * cost.NormalPrice
 			}
-			totalChan <- tPrice
-		}(SKU, qty)
-	}
-
-	wg.Wait()
-	close(totalChan)
-
-	totalPrice := 0
-	for price := range totalChan {
-		totalPrice += price
 	}
 
 	return totalPrice, nil
