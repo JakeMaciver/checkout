@@ -9,3 +9,8 @@ checkout contains the implemenation of a checkout system. you can use these pack
 To run a small demo of the packages:
 ```bash
 go run main.go
+```
+To test:
+```bash
+go test -cover -race ./...
+```
