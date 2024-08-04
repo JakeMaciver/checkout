@@ -9,7 +9,7 @@ import (
 
 // ICheckout represents an interface for the checkout
 type ICheckout interface {
-	// Scan is mehtod that will scan an item to be paid for
+	// Scan is method that will scan an item to be paid for
 	Scan(SKU string) (err error)
 	// GetTotalPrice is a method that will get the total price of all the items that have been scanned
 	GetTotalPrice() (totalPrice int, err error)
@@ -31,7 +31,7 @@ func NewCheckout(catalogue pricing.Catalogue) *Checkout {
 	}
 }
 
-// Scan will add the SKU into an items list or increment if the item is already in the list, errors occur of rinvlid input and not found
+// Scan will add the SKU into an items list or increment if the item is already in the list, errors occur of invalid input and not found
 func (c *Checkout) Scan(SKU string) error {
 	// invalid input
 	if err := pricing.ValidateSKU(SKU); err != nil {
